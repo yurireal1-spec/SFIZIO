@@ -30,6 +30,13 @@ class Settings(BaseSettings):
     MERCADOPAGO_WEBHOOK_SECRET: str = ""
     MERCADOPAGO_NOTIFICATION_URL: str = "http://localhost:8000/api/v1/orders/webhooks/mercadopago"
 
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
+    def assemble_db_connection(cls, v: str) -> str:
+        if isinstance(v, str) and v.startswith("postgres://"):
+            return v.replace("postgres://", "postgresql://", 1)
+        return v
+
     @field_validator("BACKEND_CORS_ORIGINS", mode="before")
     @classmethod
     def parse_cors_origins(cls, value):
