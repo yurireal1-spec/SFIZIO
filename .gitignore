@@ -55,6 +55,7 @@ yarn-error.log*
 .next/
 out/
 build/
+*.tsbuildinfo
 
 # Vercel
 .vercel
