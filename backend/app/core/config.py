@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List
+from typing import List, Union
 
 from pydantic import field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -13,9 +13,10 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = "development"
 
     # CORS
-    BACKEND_CORS_ORIGINS: List[str] = [
+    BACKEND_CORS_ORIGINS: Union[List[str], str] = [
         "http://localhost:3000",
         "http://localhost:8000",
+        "https://sfizio-ten.vercel.app",
     ]
 
     # SQLite is convenient locally; production should set DATABASE_URL to PostgreSQL.
