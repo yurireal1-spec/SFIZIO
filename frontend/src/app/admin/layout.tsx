@@ -61,6 +61,9 @@ export default function AdminLayout({
         </nav>
         <div className="admin-footer">
           <button onClick={async () => {
+            if (typeof window !== 'undefined') {
+              localStorage.removeItem('admin_token');
+            }
             await api.post('/auth/logout', {});
             router.push('/admin/login');
           }}>Sair</button>

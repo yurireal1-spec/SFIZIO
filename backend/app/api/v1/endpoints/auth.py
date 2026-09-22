@@ -44,12 +44,13 @@ def login_access_token(
     access_token = security.create_access_token(
         user.id, expires_delta=access_token_expires
     )
+    is_prod = settings.ENVIRONMENT != "development"
     response.set_cookie(
         key="access_token",
         value=access_token,
         httponly=True,
-        secure=settings.ENVIRONMENT != "development",
-        samesite="lax",
+        secure=is_prod,
+        samesite="none" if is_prod else "lax",
         max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
     )
     return {
@@ -59,4 +60,9 @@ def login_access_token(
 
 @router.post("/logout", status_code=204)
 def logout(response: Response) -> None:
-    response.delete_cookie("access_token")
+    is_prod = settings.ENVIRONMENT != "development"
+    response.delete_cookie(
+        key="access_token",
+        secure=is_prod,
+        samesite="none" if is_prod else "lax",
+    )

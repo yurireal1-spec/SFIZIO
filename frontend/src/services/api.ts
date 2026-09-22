@@ -3,9 +3,16 @@ export const API_BASE_URL = rawApiUrl.endsWith('/api/v1') ? rawApiUrl : `${rawAp
 
 class ApiService {
   private getHeaders() {
-    return {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
     };
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('admin_token');
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+    }
+    return headers;
   }
 
   async get(endpoint: string) {

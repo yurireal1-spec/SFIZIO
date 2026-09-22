@@ -28,7 +28,13 @@ export default function AdminLogin() {
       });
 
       if (!response.ok) {
-        throw new Error('E-mail ou senha incorretos');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.detail || 'E-mail ou senha incorretos');
+      }
+
+      const data = await response.json();
+      if (data.access_token && typeof window !== 'undefined') {
+        localStorage.setItem('admin_token', data.access_token);
       }
 
       window.location.href = '/admin';
