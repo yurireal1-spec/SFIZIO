@@ -1,0 +1,225 @@
+.pageHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.pageHeader h1 {
+  margin: 0 0 8px;
+}
+
+.pageHeader p {
+  margin: 0;
+  color: #777;
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.controls select,
+.refreshButton {
+  min-height: 42px;
+  border: 1px solid #dedede;
+  border-radius: 6px;
+  background: #fff;
+  padding: 0 14px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.refreshButton {
+  color: #222;
+  font-weight: 600;
+}
+
+.error,
+.empty {
+  background: #fff;
+  border: 1px solid #ead7d4;
+  padding: 24px;
+  color: #9b3327;
+}
+
+.kpiGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.kpi {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  padding: 22px;
+}
+
+.kpiLabel {
+  color: #777;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.kpiValue {
+  display: block;
+  margin-top: 10px;
+  color: #111;
+  font-size: 1.7rem;
+  font-weight: 700;
+}
+
+.kpiHint {
+  display: block;
+  color: #999;
+  font-size: 0.78rem;
+  margin-top: 6px;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr);
+  gap: 24px;
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid #e9ecef;
+  padding: 24px;
+  min-width: 0;
+}
+
+.panel h2 {
+  margin: 0 0 22px;
+  font-size: 1.05rem;
+}
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  height: 230px;
+  border-bottom: 1px solid #ddd;
+  padding: 0 4px;
+}
+
+.barColumn {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  gap: 8px;
+  min-width: 0;
+}
+
+.bar {
+  width: 100%;
+  max-width: 34px;
+  min-height: 3px;
+  background: #222;
+  transition: height 0.3s ease;
+}
+
+.barLabel {
+  color: #999;
+  font-size: 0.68rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 100%;
+}
+
+.orderList,
+.alertList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.order,
+.alert {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 12px;
+}
+
+.order:last-child,
+.alert:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.orderTitle,
+.alertTitle {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.orderMeta,
+.alertMeta {
+  color: #888;
+  font-size: 0.75rem;
+  margin-top: 4px;
+}
+
+.orderValue {
+  text-align: right;
+  white-space: nowrap;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.status {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 500;
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+.lowStock {
+  color: #b54708;
+}
+
+@media (max-width: 900px) {
+  .kpiGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .contentGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .pageHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .controls {
+    width: 100%;
+  }
+
+  .controls select,
+  .refreshButton {
+    flex: 1;
+  }
+
+  .kpiGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .panel {
+    padding: 18px;
+  }
+}

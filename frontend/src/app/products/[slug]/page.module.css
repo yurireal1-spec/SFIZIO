@@ -1,0 +1,221 @@
+.wrapper {
+    padding-top: calc(var(--header-height) + 40px);
+    padding-bottom: 100px;
+    min-height: 100vh;
+}
+
+.navigation {
+    padding: 0 5%;
+    margin-bottom: 40px;
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.backLink {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.backLink:hover {
+    color: var(--accent-dark);
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 80px;
+    padding: 0 5%;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+}
+
+.gallery {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.mainImage {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--bg-secondary);
+    border-radius: 4px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.02);
+}
+
+.detailsList {
+    background-color: var(--bg-secondary);
+    padding: 60px;
+    border-radius: 4px;
+}
+
+.detailTitle {
+    font-family: var(--font-serif);
+    font-size: 1.8rem;
+    margin-bottom: 24px;
+}
+
+.infoPanel {
+    position: relative;
+}
+
+.stickyContent {
+    position: sticky;
+    top: calc(var(--header-height) + 40px);
+}
+
+.category {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--accent-dark);
+    margin-bottom: 12px;
+    display: block;
+}
+
+.title {
+    font-size: 3.5rem;
+    line-height: 1.1;
+    margin-bottom: 24px;
+}
+
+.priceSection {
+    margin-bottom: 40px;
+}
+
+.priceRow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.price {
+    font-size: 2rem;
+    font-weight: 300;
+}
+
+.oldPrice {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    text-decoration: line-through;
+}
+
+.installments {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-top: 8px;
+}
+
+.descriptionSection {
+    margin-bottom: 48px;
+    border-top: 1px solid var(--border);
+    padding-top: 40px;
+}
+
+.descriptionSection h2 {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+    color: var(--text-secondary);
+}
+
+.descriptionContent {
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    line-height: 1.8;
+}
+
+.descriptionContent p {
+    margin-bottom: 1.5em;
+}
+
+.actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 48px;
+}
+
+.addToCart {
+    width: 100%;
+    background-color: var(--text-primary);
+    color: white;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.addToCart:hover {
+    background-color: var(--accent-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.requestQuote {
+    width: 100%;
+    background-color: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--text-primary);
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.requestQuote:hover {
+    background-color: var(--bg-secondary);
+    border-color: var(--accent);
+    color: var(--accent-dark);
+}
+
+.trustSection {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding-top: 40px;
+    border-top: 1px dotted var(--border);
+}
+
+.trustItem {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: var(--font-serif);
+    font-style: italic;
+}

@@ -1,0 +1,204 @@
+.wrapper {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+}
+
+.backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+}
+
+.drawer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 450px;
+    height: 100%;
+    background-color: var(--bg-primary);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    animation: slideInRight 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+@media (max-width: 500px) {
+    .drawer {
+        width: 100%;
+    }
+}
+
+.header {
+    padding: 30px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h2 {
+    font-size: 1.5rem;
+    font-weight: 400;
+}
+
+.content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px;
+}
+
+.empty {
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    color: var(--text-secondary);
+}
+
+.continueButton {
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    border-bottom: 1px solid var(--text-primary);
+    padding-bottom: 4px;
+    margin-top: 10px;
+}
+
+.itemsList {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.cartItem {
+    display: flex;
+    gap: 20px;
+    position: relative;
+}
+
+.itemImg {
+    width: 100px;
+    aspect-ratio: 1;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--bg-secondary);
+}
+
+.itemInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.itemInfo h3 {
+    font-size: 1.1rem;
+    font-weight: 400;
+    font-family: var(--font-sans);
+}
+
+.itemPrice {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 12px;
+    border: 1px solid var(--border);
+    width: fit-content;
+    padding: 4px 12px;
+}
+
+.quantity button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    border-bottom: 1px solid transparent;
+}
+
+.remove:hover {
+    border-bottom: 1px solid var(--text-secondary);
+}
+
+.footer {
+    padding: 30px;
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+}
+
+.totalRow {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    margin-bottom: 12px;
+}
+
+.totalRow span:last-child {
+    font-weight: 600;
+}
+
+.shippingInfo {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+}
+
+.checkoutButton {
+    width: 100%;
+    padding: 20px;
+    background-color: var(--text-primary);
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.checkoutButton:hover {
+    background-color: var(--accent-dark);
+}
+
+.success {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 16px;
+    animation: fadeIn 0.5s ease;
+}
+
+.success h2 {
+    font-family: var(--font-serif);
+    font-size: 2rem;
+    color: var(--accent-dark);
+}
+
+.success p {
+    color: var(--text-secondary);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

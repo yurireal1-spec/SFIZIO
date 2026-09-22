@@ -1,0 +1,27 @@
+### Comandos para rodar o SFIZIO localmente ###
+
+Abra dois terminais (cmd ou powershell) na raiz do projeto (c:\Users\nicol\Desktop\SFIZIO)
+
+---
+
+1. TERMINAL 1: BACKEND (FastAPI)
+----------------------------------------
+cd backend
+..\venv\Scripts\activate
+uvicorn app.main:app --reload
+
+A API ficará disponível em: http://localhost:8000
+A documentação (Swagger) em: http://localhost:8000/docs
+
+
+2. TERMINAL 2: FRONTEND (Next.js)
+----------------------------------------
+cd frontend
+npm run dev
+
+O E-commerce ficará disponível em: http://localhost:3000
+
+---
+
+Dica: Se houver problemas com banco de dados, certifique-se de que o Docker está rodando com o comando (na raiz do projeto):
+docker-compose up -d
