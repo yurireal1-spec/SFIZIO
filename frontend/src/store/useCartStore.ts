@@ -2,6 +2,8 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Product } from '@/types';
 
+import { parseNumber } from '@/utils/format';
+
 interface CartItem {
   product: Product;
   selectedOptions: Record<number, number>;
@@ -27,6 +29,17 @@ const getUniqueKey = (productId: number, options: Record<number, number>) => {
   return `${productId}-${JSON.stringify(Object.entries(options || {}).sort())}`;
 };
 
+const calculateUnitPrice = (product: Product, selectedOptions: Record<number, number>) => {
+  const basePrice = parseNumber(product.discount_price || product.price);
+  const modifiers = Object.entries(selectedOptions || {}).reduce((acc, [optIdStr, valId]) => {
+    const opt = product.options?.find(option => option.id === parseInt(optIdStr));
+    const val = opt?.values?.find(value => value.id === valId);
+    return acc + parseNumber(val?.price_modifier);
+  }, 0);
+
+  return basePrice + modifiers;
+};
+
 export const useCartStore = create<CartStore>()(
   persist(
     (set, get) => ({
@@ -44,21 +57,13 @@ export const useCartStore = create<CartStore>()(
             getUniqueKey(item.product.id, item.selectedOptions) === entryKey
         );
         
-        // Calcular o unitPrice correto incluindo os modificadores
-        const basePrice = product.discount_price || product.price;
-        const modifiers = Object.entries(selectedOptions || {}).reduce((acc, [optIdStr, valId]) => {
-          const optId = parseInt(optIdStr);
-          const opt = product.options?.find(o => o.id === optId);
-          const val = opt?.values?.find(v => v.id === valId);
-          return acc + (val?.price_modifier || 0);
-        }, 0);
-        const unitPrice = basePrice + modifiers;
+        const unitPrice = calculateUnitPrice(product, selectedOptions);
 
         if (existingItem) {
           set({
             items: currentItems.map(item => 
               getUniqueKey(item.product.id, item.selectedOptions) === entryKey
-                ? { ...item, quantity: item.quantity + 1 }
+                ? { ...item, quantity: item.quantity + 1, unitPrice }
                 : item
             ),
             isCartOpen: true
@@ -101,12 +106,21 @@ export const useCartStore = create<CartStore>()(
       
       getTotalPrice: () => {
         return get().items.reduce((total, item) => {
-          return total + (item.unitPrice * item.quantity);
+          return total + (parseNumber(item.unitPrice) * item.quantity);
         }, 0);
       }
     }),
     {
       name: 'sfizio-cart-storage',
+      merge: (persistedState, currentState) => {
+        const persisted = persistedState as Partial<CartStore>;
+        const items = (persisted.items || []).map(item => ({
+          ...item,
+          unitPrice: calculateUnitPrice(item.product, item.selectedOptions),
+        }));
+
+        return { ...currentState, ...persisted, items };
+      },
     }
   )
 );

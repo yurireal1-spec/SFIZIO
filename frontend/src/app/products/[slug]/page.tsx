@@ -10,6 +10,8 @@ import ProductOptions from '@/components/ProductOptions';
 import styles from './page.module.css';
 import { api } from '@/services/api';
 
+import { formatCurrency, parseNumber } from '@/utils/format';
+
 export default function ProductDetail() {
   const { slug } = useParams();
   const [product, setProduct] = useState<Product | null>(null);
@@ -51,11 +53,11 @@ export default function ProductDetail() {
   const currentImage = variantImageOverride || product.images?.[activeImageIndex]?.url || primaryImage;
 
   // Cálculo de Preço com Modificadores
-  const basePrice = product.discount_price || product.price;
+  const basePrice = parseNumber(product.discount_price || product.price);
   const modifiers = product.options?.reduce((acc: number, opt: any) => {
     const valId = selectedOptions[opt.id];
     const val = opt.values.find((v: any) => v.id === valId);
-    return acc + (val?.price_modifier || 0);
+    return acc + parseNumber(val?.price_modifier);
   }, 0) || 0;
   
   const totalPrice = basePrice + modifiers;
@@ -84,7 +86,7 @@ export default function ProductDetail() {
         return `${opt.name}: ${val?.name || 'Não selecionado'}`;
     }).join('\n');
 
-    const message = `Olá! Tenho interesse em uma peça personalizada:\n\n*Produto:* ${product.name}\n*Opções desejadas:*\n${selectedText}\n\n*Valor base:* R$ ${totalPrice.toLocaleString('pt-BR')}\n\nGostaria de mais detalhes sobre o prazo e frete.`;
+    const message = `Olá! Tenho interesse em uma peça personalizada:\n\n*Produto:* ${product.name}\n*Opções desejadas:*\n${selectedText}\n\n*Valor base:* ${formatCurrency(totalPrice)}\n\nGostaria de mais detalhes sobre o prazo e frete.`;
     
     const encodedMessage = encodeURIComponent(message);
     window.open(`https://wa.me/${number}?text=${encodedMessage}`, '_blank');
@@ -157,12 +159,12 @@ export default function ProductDetail() {
             
             <div className={styles.priceSection}>
               <div className={styles.priceRow}>
-                <span className={styles.price}>R$ {totalPrice.toLocaleString('pt-BR')}</span>
+                <span className={styles.price}>{formatCurrency(totalPrice)}</span>
                 {product.discount_price && (
-                    <span className={styles.oldPrice}>R$ {(product.price + modifiers).toLocaleString('pt-BR')}</span>
+                    <span className={styles.oldPrice}>{formatCurrency(parseNumber(product.price) + modifiers)}</span>
                 )}
               </div>
-              <p className={styles.installments}>ou 10x de R$ {(totalPrice / 10).toLocaleString('pt-BR')}</p>
+              <p className={styles.installments}>ou 10x de {formatCurrency(totalPrice / 10)}</p>
             </div>
 
             {/* Selection Options */}

@@ -13,6 +13,8 @@ declare global {
   }
 }
 
+import { formatCurrency, parseNumber } from '@/utils/format';
+
 export default function CheckoutPage() {
   const { items, getTotalPrice, clearCart } = useCartStore();
   const [loading, setLoading] = useState(false);
@@ -339,7 +341,7 @@ export default function CheckoutPage() {
                             </div>
 
                             <button type="submit" className={styles.payButton} disabled={loading}>
-                                {loading ? 'Processando...' : `Pagar R$ ${totalPrice.toLocaleString('pt-BR')}`}
+                                {loading ? 'Processando...' : `Pagar ${formatCurrency(totalPrice)}`}
                             </button>
                         </form>
                     </>
@@ -379,7 +381,7 @@ export default function CheckoutPage() {
                                         return <p key={optId}>{option?.name}: {value?.name}</p>;
                                     })}
                                 </div>
-                                <p className={styles.itemPrice}>{item.quantity}x R$ {item.unitPrice.toLocaleString('pt-BR')}</p>
+                                <p className={styles.itemPrice}>{item.quantity}x {formatCurrency(item.unitPrice)}</p>
                             </div>
                         </div>
                     );
@@ -389,7 +391,7 @@ export default function CheckoutPage() {
             <div className={styles.totalSection}>
                 <div className={styles.totalRow}>
                     <span>Subtotal</span>
-                    <span>R$ {totalPrice.toLocaleString('pt-BR')}</span>
+                    <span>{formatCurrency(totalPrice)}</span>
                 </div>
                 <div className={styles.totalRow}>
                     <span>Frete Premium</span>
@@ -397,7 +399,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className={styles.totalRow + ' ' + styles.grandTotal} style={{ marginTop: '20px' }}>
                     <span>Total</span>
-                    <span>R$ {totalPrice.toLocaleString('pt-BR')}</span>
+                    <span>{formatCurrency(totalPrice)}</span>
                 </div>
                 
                 <div style={{ marginTop: '30px', display: 'flex', flexDirection: 'column', gap: '12px' }}>

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { api } from '@/services/api';
 
+import { formatCurrency } from '@/utils/format';
+
 export default function AdminProducts() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -72,7 +74,7 @@ export default function AdminProducts() {
                     </div>
                   </div>
                 </td>
-                <td>R$ {product.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                <td>{formatCurrency(product.price)}</td>
                 <td>{product.stock} un</td>
                 <td>
                   <span style={{ 

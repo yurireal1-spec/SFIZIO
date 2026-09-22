@@ -5,6 +5,8 @@ import { useCartStore } from '@/store/useCartStore';
 import { X, Minus, Plus, ShoppingBag } from 'lucide-react';
 import styles from './CartDrawer.module.css';
 
+import { formatCurrency } from '@/utils/format';
+
 interface CartDrawerProps {
   isOpen: boolean;
   onClose: () => void;
@@ -60,7 +62,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
                           return value ? <span key={optId}>{option?.name}: {value.name}</span> : null;
                         })}
                       </div>
-                      <p className={styles.itemPrice}>R$ {item.unitPrice.toLocaleString('pt-BR')}</p>
+                      <p className={styles.itemPrice}>{formatCurrency(item.unitPrice)}</p>
                       <div className={styles.quantity}>
                         <button onClick={() => updateQuantity(uniqueKey, item.quantity - 1)}><Minus size={14} /></button>
                         <span>{item.quantity}</span>
@@ -79,7 +81,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ isOpen, onClose }) => {
           <div className={styles.footer}>
             <div className={styles.totalRow}>
               <span>Subtotal</span>
-              <span>R$ {getTotalPrice().toLocaleString('pt-BR')}</span>
+              <span>{formatCurrency(getTotalPrice())}</span>
             </div>
             <p className={styles.shippingInfo}>Frete calculado no próximo passo.</p>
             <button 

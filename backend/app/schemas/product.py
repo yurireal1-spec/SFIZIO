@@ -1,4 +1,4 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, model_validator
 from typing import List, Optional
 from datetime import datetime
 from decimal import Decimal
@@ -52,6 +52,18 @@ class ProductBase(BaseModel):
     stock: int = 0
     is_active: bool = True
     category_id: int
+
+    @model_validator(mode="after")
+    def validate_discount_price(self):
+        if (
+            self.price is not None
+            and self.discount_price is not None
+            and self.discount_price >= self.price
+        ):
+            raise ValueError(
+                "O preço de desconto deve ser menor que o preço normal"
+            )
+        return self
 
 class ProductOptionValueCreate(ProductOptionValueBase):
     pass

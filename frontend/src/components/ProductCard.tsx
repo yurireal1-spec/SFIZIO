@@ -6,6 +6,7 @@ import { useCartStore } from '@/store/useCartStore';
 import { ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import styles from './ProductCard.module.css';
+import { formatCurrency } from '@/utils/format';
 
 interface ProductCardProps {
   product: Product;
@@ -62,11 +63,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <div className={styles.priceContainer}>
               {product.discount_price ? (
                 <>
-                  <span className={styles.oldPrice}>R$ {product.price.toLocaleString('pt-BR')}</span>
-                  <span className={styles.price}>R$ {product.discount_price.toLocaleString('pt-BR')}</span>
+                  <span className={styles.oldPrice}>{formatCurrency(product.price)}</span>
+                  <span className={styles.price}>{formatCurrency(product.discount_price)}</span>
                 </>
               ) : (
-                <span className={styles.price}>R$ {product.price.toLocaleString('pt-BR')}</span>
+                <span className={styles.price}>{formatCurrency(product.price)}</span>
               )}
             </div>
         )}

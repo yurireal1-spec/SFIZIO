@@ -2,13 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { parseNumber } from '@/utils/format';
 
 export interface ProductFormData {
   name: string;
   slug: string;
   description: string;
-  price: number;
-  discount_price: number;
+  price: number | string;
+  discount_price: number | string;
   stock: number;
   category_id: number | string;
   is_active: boolean;
@@ -82,7 +83,7 @@ export default function ProductForm({
     const { name, value, type } = e.target as any;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : (type === 'number' ? parseFloat(value) : value)
+      [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : (name === 'price' || name === 'discount_price' ? value : (type === 'number' ? parseFloat(value) : value))
     }));
   };
 
@@ -134,9 +135,18 @@ export default function ProductForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    const price = parseNumber(formData.price);
+    const discountPrice = parseNumber(formData.discount_price);
+
+    if (discountPrice > 0 && discountPrice >= price) {
+      alert('O preço de desconto deve ser menor que o preço normal.');
+      return;
+    }
+
     const payload = {
       ...formData,
-      discount_price: formData.discount_price > 0 ? formData.discount_price : null,
+      price,
+      discount_price: discountPrice > 0 ? discountPrice : null,
       category_id: parseInt(formData.category_id as string),
       images: formData.images.map((url, i) => ({ url, is_primary: i === 0 })),
       options: options.map(opt => ({
@@ -176,11 +186,11 @@ export default function ProductForm({
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '20px' }}>
             <div className="form-group">
               <label>PREÇO (R$)</label>
-              <input type="number" step="0.01" name="price" value={formData.price} onChange={handleChange} required />
+              <input type="text" inputMode="decimal" name="price" value={formData.price} onChange={handleChange} placeholder="Ex: 10,00" required />
             </div>
             <div className="form-group">
               <label>PREÇO DESCONTO (R$)</label>
-              <input type="number" step="0.01" name="discount_price" value={formData.discount_price} onChange={handleChange} />
+              <input type="text" inputMode="decimal" name="discount_price" value={formData.discount_price || ''} onChange={handleChange} placeholder="Ex: 9,00" />
             </div>
             <div className="form-group">
               <label>ESTOQUE</label>

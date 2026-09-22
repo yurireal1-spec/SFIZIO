@@ -11,6 +11,8 @@ const statusMap: Record<string, { label: string; color: string }> = {
   cancelled: { label: 'Cancelado', color: '#e74c3c' }
 };
 
+import { formatCurrency } from '@/utils/format';
+
 export default function AdminOrders() {
   const [orders, setOrders] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -98,7 +100,7 @@ export default function AdminOrders() {
                   <td>#{order.id}</td>
                   <td><a href={`/admin/orders/${order.id}`}>{new Date(order.created_at).toLocaleDateString('pt-BR')}</a></td>
                   <td>{order.client_name || order.client_email || (order.user_id ? `Usuário #${order.user_id}` : 'Cliente')}</td>
-                  <td style={{ fontWeight: 600 }}>R$ {order.total_price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</td>
+                  <td style={{ fontWeight: 600 }}>{formatCurrency(order.total_price)}</td>
                   <td>
                     <select 
                       value={order.status} 
