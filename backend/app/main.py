@@ -11,9 +11,14 @@ app = FastAPI(
 )
 
 # Configuração de CORS
+cors_origins = {
+    str(origin).rstrip("/") for origin in settings.BACKEND_CORS_ORIGINS
+}
+cors_origins.add("https://sfizio-ten.vercel.app")
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[str(origin).rstrip("/") for origin in settings.BACKEND_CORS_ORIGINS],
+    allow_origins=list(cors_origins),
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type"],
