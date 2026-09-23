@@ -65,6 +65,8 @@ export default function ProductDetail() {
     const val = opt?.values.find((v: any) => v.id === valueId);
     if (val?.image_url) {
       setVariantImageOverride(val.image_url);
+    } else {
+      setVariantImageOverride(null);
     }
   };
 
@@ -78,7 +80,8 @@ export default function ProductDetail() {
     const selectedText = product.options.map((opt: any) => {
         const valId = selectedOptions[opt.id];
         const val = opt.values.find((v: any) => v.id === valId);
-        return `${opt.name}: ${val?.name || 'Não selecionado'}`;
+        const selectedName = valId === 0 ? 'Preço base' : val?.name || 'Não selecionado';
+        return `${opt.name}: ${selectedName}`;
     }).join('\n');
 
     const message = `Olá! Tenho interesse em uma peça personalizada:\n\n*Produto:* ${product.name}\n*Opções desejadas:*\n${selectedText}\n\n*Valor base:* ${formatCurrency(totalPrice)}\n\nGostaria de mais detalhes sobre o prazo e frete.`;

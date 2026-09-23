@@ -18,10 +18,21 @@ const ProductOptions: React.FC<ProductOptionsProps> = ({ options, selectedValues
           <div className={styles.header}>
             <span className={styles.optionName}>{option.name}</span>
             <span className={styles.selectedValueName}>
-              {option.values.find(v => v.id === selectedValues[option.id])?.name || 'Selecione'}
+              {selectedValues[option.id] === 0
+                ? 'Preço base'
+                : option.values.find(v => v.id === selectedValues[option.id])?.name || 'Selecione'}
             </span>
           </div>
           <div className={styles.valuesGrid}>
+            <button
+              type="button"
+              className={`${styles.valueItem} ${selectedValues[option.id] === 0 ? styles.active : ''}`}
+              onClick={() => onSelect(option.id, 0)}
+              title="Voltar ao preço base"
+            >
+              <span className={styles.textValue}>Preço base</span>
+              {selectedValues[option.id] === 0 && <div className={styles.activeDot} />}
+            </button>
             {option.values.map((value) => {
               const isActive = selectedValues[option.id] === value.id;
               const isColor = value.meta?.startsWith('#');
