@@ -53,18 +53,6 @@ class ProductBase(BaseModel):
     is_active: bool = True
     category_id: int
 
-    @model_validator(mode="after")
-    def validate_discount_price(self):
-        if (
-            self.price is not None
-            and self.discount_price is not None
-            and self.discount_price >= self.price
-        ):
-            raise ValueError(
-                "O preço de desconto deve ser menor que o preço normal"
-            )
-        return self
-
 class ProductOptionValueCreate(ProductOptionValueBase):
     pass
 
@@ -75,6 +63,14 @@ class ProductCreate(ProductBase):
     images: List[ProductImageBase] = []
     options: List[ProductOptionCreate] = []
 
+    @model_validator(mode="after")
+    def validate_discount_price(self):
+        if self.discount_price is not None and self.discount_price >= self.price:
+            raise ValueError(
+                "O preço de desconto deve ser menor que o preço normal"
+            )
+        return self
+
 class ProductUpdate(ProductBase):
     name: Optional[str] = None
     slug: Optional[str] = None
@@ -83,6 +79,15 @@ class ProductUpdate(ProductBase):
     category_id: Optional[int] = None
     images: Optional[List[ProductImageBase]] = None
     options: Optional[List[ProductOptionCreate]] = None
+
+    @model_validator(mode="after")
+    def validate_discount_price(self):
+        if self.discount_price is not None and self.price is not None:
+            if self.discount_price >= self.price:
+                raise ValueError(
+                    "O preço de desconto deve ser menor que o preço normal"
+                )
+        return self
 
 class Product(ProductBase):
     id: int
