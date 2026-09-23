@@ -27,12 +27,7 @@ export default function ProductDetail() {
         const found = await api.get(`/products/${slug}`);
         if (found) {
           setProduct(found);
-          
-          const initial: Record<number, number> = {};
-          found.options?.forEach((opt: any) => {
-            if (opt.values?.length > 0) initial[opt.id] = opt.values[0].id;
-          });
-          setSelectedOptions(initial);
+          setSelectedOptions({});
         }
       } catch (err) {
         console.error('Produto não encontrado:', err);
@@ -179,10 +174,7 @@ export default function ProductDetail() {
             <div className={styles.actions}>
                 <button 
                 className={styles.addToCart}
-                onClick={() => addItem({
-                    ...product,
-                    price: totalPrice // Passar o preço final com modificadores
-                }, selectedOptions)}
+                onClick={() => addItem(product, selectedOptions)}
                 >
                 <ShoppingBag size={20} />
                 <span>Adicionar à Sacola</span>
